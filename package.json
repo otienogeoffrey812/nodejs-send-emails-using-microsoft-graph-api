@@ -3,9 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "author": "Geoffrey Otieno",
+  "license": "ISC",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Geoffrey Otieno",
-  "license": "ISC"
+  "type": "module",
+  "dependencies": {
+    "@azure/msal-node": "^1.17.3",
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5"
+  }
 }
