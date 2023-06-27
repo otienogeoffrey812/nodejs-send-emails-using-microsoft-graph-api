@@ -1,6 +1,7 @@
 import Services from "../utils/Services.js";
-import { handleError } from "../utils/Funnctions.js";
+import { handleError } from "../utils/Functions.js";
 import axios from "axios";
+import fs from 'fs'
 
 import dotenv from 'dotenv';
 dotenv.config()
@@ -13,6 +14,11 @@ class Mails{
             const { recipient, subject, emailBody } =  req.body;
 
             const accessToken = await Services.generateGraphApiAccessToken();
+
+            const filePath = `./src/attachment/sample.pdf`;
+            
+          let fileContent = fs.readFileSync(filePath);
+          let base64data = fileContent.toString('base64');
   
             const emailConfig = {
               Message: {
@@ -32,7 +38,16 @@ class Mails{
                       emailAddress: {
                       address: process.env.MAIL_SENDER,
                       },
-                  },                  
+                  },
+                  "attachments":
+                  [
+                   {
+                    "@odata.type": "#microsoft.graph.fileAttachment",
+                    "name": "sample_attachment.pdf",
+                    "contentType": 'application/pdf',
+                    "contentBytes": base64data,
+                   }
+                  ]              
               },
               SaveToSentItems: 'false'
             };
@@ -46,7 +61,7 @@ class Mails{
 
             res.status(200).send({
                 status: 'success',
-                message: 'Email sent successfully',
+                message: 'Email with attachment sent successfully',
               });
             
         } catch (error) {
