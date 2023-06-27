@@ -2,6 +2,7 @@ import Services from "../utils/Services.js";
 import { handleError } from "../utils/Functions.js";
 import axios from "axios";
 import fs from 'fs'
+import Joi from "joi";
 
 import dotenv from 'dotenv';
 dotenv.config()
@@ -12,6 +13,19 @@ class Mails{
     static sendMail = async (req, res)=>{
         try {
             const { recipient, subject, emailBody } =  req.body;
+
+            const schema = Joi.object({
+                recipient : Joi.string().email().required(),
+                subject : Joi.string().required(),
+                emailBody : Joi.string().required()
+            })
+        
+            const result = schema.validate(req.body);
+        
+            if(result.error){
+                res.status(400).send(result.error.details[0].message);
+                return;
+            }
 
             const accessToken = await Services.generateGraphApiAccessToken();
 
