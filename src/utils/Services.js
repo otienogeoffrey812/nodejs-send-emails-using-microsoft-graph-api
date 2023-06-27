@@ -1,3 +1,5 @@
+import msal from '@azure/msal-node';
+
 class Services{
     static generateGraphApiAccessToken = async ()=>{
         try {
