@@ -1,11 +1,11 @@
 import express from 'express';
-// import Mail from '../controllers/Mail';
+import Mails from '../controllers/Mails.js';
 
 const routes = express.Router();
 
 routes.post(
   '/mail',
-  // Mail.sendMail,
+  Mails.sendMail,
 );
 
 export default routes;
